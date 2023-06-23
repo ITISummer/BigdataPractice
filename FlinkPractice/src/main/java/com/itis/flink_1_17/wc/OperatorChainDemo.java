@@ -23,6 +23,7 @@ public class OperatorChainDemo {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
 
         // 在idea运行，不指定并行度，默认就是 电脑的 线程数
+//        env.setParallelism(1).disableOperatorChaining();
         env.setParallelism(1);
 
         // 全局禁用 算子链
@@ -60,7 +61,8 @@ public class OperatorChainDemo {
     }
 }
 
-/**
+/*
+
  1、算子之间的传输关系：
      一对一
      重分区
@@ -73,5 +75,4 @@ public class OperatorChainDemo {
     1）全局禁用算子链：env.disableOperatorChaining();
     2）某个算子不参与链化：  算子A.disableChaining(),  算子A不会与 前面 和 后面的 算子 串在一起
     3）从某个算子开启新链条：  算子A.startNewChain()， 算子A不与 前面串在一起，从A开始正常链化
-
  */

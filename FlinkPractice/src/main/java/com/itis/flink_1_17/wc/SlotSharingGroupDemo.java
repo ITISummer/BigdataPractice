@@ -55,7 +55,8 @@ public class SlotSharingGroupDemo {
     }
 }
 
-/**
+/*
+
  1、slot特点：
     1）均分隔离内存，不隔离cpu
     2）可以共享：

@@ -8,6 +8,7 @@
     <module>MapReducePractice</module>
     <module>SparkPractice</module>
     <module>FlinkPractice</module>
+    <module>HiveUDTFDemo</module>
   </modules>
   <version>1.0-SNAPSHOT</version>
   <name>BigdataPractice</name>

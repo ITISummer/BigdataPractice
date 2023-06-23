@@ -25,7 +25,7 @@ public class WordCountStreamUnboundedDemo {
         // 在idea运行，不指定并行度，默认就是 电脑的 线程数
 //        StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
 
-
+//      全局设定并行度
         env.setParallelism(3);
 
         // TODO 2. 读取数据： socket
@@ -46,8 +46,6 @@ public class WordCountStreamUnboundedDemo {
 //                .returns(new TypeHint<Tuple2<String, Integer>>() {})
                 .keyBy(value -> value.f0)
                 .sum(1);
-
-
 
         // TODO 4. 输出
         sum.print();
