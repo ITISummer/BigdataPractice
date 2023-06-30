@@ -29,23 +29,23 @@ public class StateBackendDemo {
 
 
         /**
-         * TODO 状态后端
-         * 1、负责管理 本地状态
-         * 2、 hashmap
-         *          存在 TM的 JVM的堆内存，  读写快，缺点是存不了太多（受限与TaskManager的内存）
-         *     rocksdb
-         *          存在 TM所在节点的rocksdb数据库，存到磁盘中，  写--序列化，读--反序列化
-         *          读写相对慢一些，可以存很大的状态
-         *
-         * 3、配置方式
-         *    1）配置文件 默认值  flink-conf.yaml
-         *    2）代码中指定
-         *    3）提交参数指定
-         *    flink run-application -t yarn-application
-         *    -p 3
-         *    -Dstate.backend.type=rocksdb
-         *    -c 全类名
-         *    jar包
+          TODO 状态后端
+          1、负责管理 本地状态
+          2、 hashmap
+                   存在 TM的 JVM的堆内存，  读写快，缺点是存不了太多（受限与TaskManager的内存）
+              rocksdb
+                   存在 TM所在节点的rocksdb数据库，存到磁盘中，  写--序列化，读--反序列化
+                   读写相对慢一些，可以存很大的状态
+
+          3、配置方式
+             1）配置文件 默认值  flink-conf.yaml
+             2）代码中指定
+             3）提交参数指定
+             flink run-application -t yarn-application
+             -p 3
+             -Dstate.backend.type=rocksdb
+             -c 全类名
+             jar包
           */
 
         // 1. 使用 hashmap状态后端

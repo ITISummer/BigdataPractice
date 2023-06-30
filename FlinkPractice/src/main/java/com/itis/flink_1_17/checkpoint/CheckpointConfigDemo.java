@@ -42,7 +42,7 @@ public class CheckpointConfigDemo {
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
         CheckpointConfig checkpointConfig = env.getCheckpointConfig();
         // 2、指定检查点的存储位置
-        checkpointConfig.setCheckpointStorage("hdfs://hadoop102:8020/chk");
+        checkpointConfig.setCheckpointStorage("hdfs://hadoop102:8020/flink-chk");
         // 3、checkpoint的超时时间: 默认10分钟
         checkpointConfig.setCheckpointTimeout(60000);
         // 4、同时运行中的checkpoint的最大数量
@@ -84,13 +84,13 @@ public class CheckpointConfigDemo {
 }
 
 /**
- * TODO 检查点算法的总结
- * 1、Barrier对齐： 一个Task 收到 所有上游 同一个编号的 barrier之后，才会对自己的本地状态做 备份
- *      精准一次： 在barrier对齐过程中，barrier后面的数据 阻塞等待（不会越过barrier）
- *      至少一次： 在barrier对齐过程中，先到的barrier，其后面的数据 不阻塞 接着计算
- *
- * 2、非Barrier对齐： 一个Task 收到 第一个 barrier时，就开始 执行备份，能保证 精准一次（flink 1.11出的新算法）
- *      先到的barrier，将 本地状态 备份， 其后面的数据接着计算输出
- *      未到的barrier，其 前面的数据 接着计算输出，同时 也保存到 备份中
- *      最后一个barrier到达 该Task时，这个Task的备份结束
+  TODO 检查点算法的总结
+  1、Barrier对齐： 一个Task 收到 所有上游 同一个编号的 barrier之后，才会对自己的本地状态做 备份
+       精准一次： 在barrier对齐过程中，barrier后面的数据 阻塞等待（不会越过barrier）
+       至少一次： 在barrier对齐过程中，先到的barrier，其后面的数据 不阻塞 接着计算
+
+  2、非Barrier对齐： 一个Task 收到 第一个 barrier时，就开始 执行备份，能保证 精准一次（flink 1.11出的新算法）
+       先到的barrier，将 本地状态 备份， 其后面的数据接着计算输出
+       未到的barrier，其 前面的数据 接着计算输出，同时 也保存到 备份中
+       最后一个barrier到达 该Task时，这个Task的备份结束
  */

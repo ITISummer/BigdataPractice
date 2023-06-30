@@ -47,7 +47,7 @@ public class SinkKafka {
                 // 写到kafka的一致性级别： 精准一次、至少一次
                 .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
                 // 如果是精准一次，必须设置 事务的前缀
-                .setTransactionalIdPrefix("atguigu-")
+                .setTransactionalIdPrefix("lv-")
                 // 如果是精准一次，必须设置 事务超时时间: 大于checkpoint间隔，小于 max 15分钟
                 .setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, 10*60*1000+"")
                 .build();

@@ -3,10 +3,6 @@ package com.itis.flink_1_17.watermark;
 import com.itis.flink_1_17.bean.WaterSensor;
 import com.itis.flink_1_17.functions.WaterSensorMapFunction;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.flink.api.common.ExecutionConfig;
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
-import org.apache.flink.api.common.eventtime.WatermarkGenerator;
-import org.apache.flink.api.common.eventtime.WatermarkGeneratorSupplier;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -24,7 +20,7 @@ import java.time.Duration;
  * @author cjp
  * @version 1.0
  */
-public class WatermarkOutOfOrdernessDemo {
+public class WatermarkOutOfOrderlessDemo {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 //        env.setParallelism(1);
@@ -57,8 +53,7 @@ public class WatermarkOutOfOrdernessDemo {
         // TODO 2. 指定 watermark策略
         SingleOutputStreamOperator<WaterSensor> sensorDSwithWatermark = sensorDS.assignTimestampsAndWatermarks(watermarkStrategy);
 
-
-        sensorDSwithWatermark.keyBy(sensor -> sensor.getId())
+        sensorDSwithWatermark.keyBy(WaterSensor::getId)
                 // TODO 3.使用 事件时间语义 的窗口
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
                 .process(

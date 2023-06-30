@@ -23,7 +23,7 @@ public class SavepointDemo {
 
 
         // 代码中用到hdfs，需要导入hadoop依赖、指定访问hdfs的用户名
-        System.setProperty("HADOOP_USER_NAME", "atguigu");
+        System.setProperty("HADOOP_USER_NAME", "lv");
         // 1、启用检查点: 默认是barrier对齐的，周期为5s, 精准一次
         env.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
         CheckpointConfig checkpointConfig = env.getCheckpointConfig();

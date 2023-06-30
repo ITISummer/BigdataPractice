@@ -18,14 +18,14 @@ public class ConnectDemo {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-//        DataStreamSource<Integer> source1 = env.fromElements(1, 2, 3);
-//        DataStreamSource<String> source2 = env.fromElements("a", "b", "c");
+        DataStreamSource<Integer> source1 = env.fromElements(1, 2, 3);
+        DataStreamSource<String> source2 = env.fromElements("a", "b", "c");
 
-        SingleOutputStreamOperator<Integer> source1 = env
-                .socketTextStream("hadoop102", 7777)
-                .map(i -> Integer.parseInt(i));
-
-        DataStreamSource<String> source2 = env.socketTextStream("hadoop102", 8888);
+//        SingleOutputStreamOperator<Integer> source1 = env
+//                .socketTextStream("hadoop102", 7777)
+//                .map(i -> Integer.parseInt(i));
+//
+//        DataStreamSource<String> source2 = env.socketTextStream("hadoop102", 8888);
 
 
         /**
@@ -39,7 +39,8 @@ public class ConnectDemo {
         SingleOutputStreamOperator<String> result = connect.map(new CoMapFunction<Integer, String, String>() {
             @Override
             public String map1(Integer value) throws Exception {
-                return "来源于数字流:" + value.toString();
+//                return "来源于数字流:" + value.toString();
+                return "来源于数字流:" + value;
             }
 
             @Override

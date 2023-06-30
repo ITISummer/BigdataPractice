@@ -53,9 +53,3 @@ public class PartitionDemo {
         env.execute();
     }
 }
-
-/**
-
-
-
- */

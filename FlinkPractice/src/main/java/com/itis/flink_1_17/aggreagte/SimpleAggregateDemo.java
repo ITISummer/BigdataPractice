@@ -44,7 +44,7 @@ public class SimpleAggregateDemo {
          */
         // 传位置索引的，适用于 Tuple类型，POJO不行
 //        SingleOutputStreamOperator<WaterSensor> result = sensorKS.sum(2);
-//        SingleOutputStreamOperator<WaterSensor> result = sensorKS.sum("vc");
+        SingleOutputStreamOperator<WaterSensor> result = sensorKS.sum("vc");
 
 
         /**
@@ -54,7 +54,7 @@ public class SimpleAggregateDemo {
          */
 //        SingleOutputStreamOperator<WaterSensor> result = sensorKS.max("vc");
 //        SingleOutputStreamOperator<WaterSensor> result = sensorKS.min("vc");
-        SingleOutputStreamOperator<WaterSensor> result = sensorKS.maxBy("vc");
+//        SingleOutputStreamOperator<WaterSensor> result = sensorKS.maxBy("vc");
 //        SingleOutputStreamOperator<WaterSensor> result = sensorKS.minby("vc");
 
         result.print();

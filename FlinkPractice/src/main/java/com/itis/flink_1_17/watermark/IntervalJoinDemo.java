@@ -79,8 +79,6 @@ public class IntervalJoinDemo {
                         })
                 .print();
 
-
-
         env.execute();
     }
 }

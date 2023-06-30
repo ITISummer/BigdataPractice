@@ -58,16 +58,17 @@ public class KeyedProcessFunctionTopNDemo {
 
         // 1. 按照 vc 分组、开窗、聚合（增量计算+全量打标签）
         //  开窗聚合后，就是普通的流，没有了窗口信息，需要自己打上窗口的标记 windowEnd
-        SingleOutputStreamOperator<Tuple3<Integer, Integer, Long>> windowAgg = sensorDS.keyBy(sensor -> sensor.getVc())
+        SingleOutputStreamOperator<Tuple3<Integer, Integer, Long>> windowAgg = sensorDS
+                .keyBy(WaterSensor::getVc)
                 .window(SlidingEventTimeWindows.of(Time.seconds(10), Time.seconds(5)))
                 .aggregate(
-                        new VcCountAgg(),
-                        new WindowResult()
+                        new VcCountAgg(), // 增量聚合,计算 count
+                        new WindowResult() // 全窗口,打标签
                 );
 
 
         // 2. 按照窗口标签（窗口结束时间）keyby，保证同一个窗口时间范围的结果，到一起去。排序、取TopN
-        windowAgg.keyBy(r -> r.f2)
+        windowAgg.keyBy(r -> r.f2) // 在同一个窗口按窗口标签重新聚合后排序
                 .process(new TopN(2))
                 .print();
 
@@ -76,6 +77,9 @@ public class KeyedProcessFunctionTopNDemo {
     }
 
 
+    /**
+     * 累加器
+     */
     public static class VcCountAgg implements AggregateFunction<WaterSensor, Integer, Integer> {
 
         @Override
@@ -176,10 +180,10 @@ public class KeyedProcessFunctionTopNDemo {
             // 遍历 排序后的 List，取出前 threshold 个， 考虑可能List不够2个的情况  ==》 List中元素的个数 和 2 取最小值
             for (int i = 0; i < Math.min(threshold, dataList.size()); i++) {
                 Tuple3<Integer, Integer, Long> vcCount = dataList.get(i);
-                outStr.append("Top" + (i + 1) + "\n");
-                outStr.append("vc=" + vcCount.f0 + "\n");
-                outStr.append("count=" + vcCount.f1 + "\n");
-                outStr.append("窗口结束时间=" + vcCount.f2 + "\n");
+                outStr.append("Top").append(i + 1).append("\n");
+                outStr.append("vc=").append(vcCount.f0).append("\n");
+                outStr.append("count=").append(vcCount.f1).append("\n");
+                outStr.append("窗口结束时间=").append(vcCount.f2).append("\n");
                 outStr.append("================================\n");
             }
 

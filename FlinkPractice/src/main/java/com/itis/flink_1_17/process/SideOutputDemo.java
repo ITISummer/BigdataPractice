@@ -41,7 +41,7 @@ public class SideOutputDemo {
                 );
 
         OutputTag<String> warnTag = new OutputTag<>("warn", Types.STRING);
-        SingleOutputStreamOperator<WaterSensor> process = sensorDS.keyBy(sensor -> sensor.getId())
+        SingleOutputStreamOperator<WaterSensor> process = sensorDS.keyBy(WaterSensor::getId)
                 .process(
                         new KeyedProcessFunction<String, WaterSensor, WaterSensor>() {
                             @Override

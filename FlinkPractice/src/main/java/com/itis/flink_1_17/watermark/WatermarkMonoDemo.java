@@ -48,10 +48,9 @@ public class WatermarkMonoDemo {
                 });
 
         // TODO 2. 指定 watermark策略
-        SingleOutputStreamOperator<WaterSensor> sensorDSwithWatermark = sensorDS.assignTimestampsAndWatermarks(watermarkStrategy);
+        SingleOutputStreamOperator<WaterSensor> sensorDSWithWatermark = sensorDS.assignTimestampsAndWatermarks(watermarkStrategy);
 
-
-        sensorDSwithWatermark.keyBy(sensor -> sensor.getId())
+        sensorDSWithWatermark.keyBy(WaterSensor::getId)
                 // TODO 3.使用 事件时间语义 的窗口
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
                 .process(

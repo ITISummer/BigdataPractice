@@ -54,11 +54,11 @@ public class SinkFile {
         // TODO 输出到文件系统
         FileSink<String> fieSink = FileSink
                 // 输出行式存储的文件，指定路径、指定编码
-                .<String>forRowFormat(new Path("f:/tmp"), new SimpleStringEncoder<>("UTF-8"))
+                .<String>forRowFormat(new Path("d:/tmp"), new SimpleStringEncoder<>("UTF-8"))
                 // 输出文件的一些配置： 文件名的前缀、后缀
                 .withOutputFileConfig(
                         OutputFileConfig.builder()
-                                .withPartPrefix("atguigu-")
+                                .withPartPrefix("lv-")
                                 .withPartSuffix(".log")
                                 .build()
                 )

@@ -30,7 +30,7 @@ public class WatermarkIdlenessDemo {
         SingleOutputStreamOperator<Integer> socketDS = env
                 .socketTextStream("hadoop102", 7777)
                 .partitionCustom(new MyPartitioner(), r -> r)
-                .map(r -> Integer.parseInt(r))
+                .map(Integer::parseInt)
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy
                                 .<Integer>forMonotonousTimestamps()
@@ -39,7 +39,7 @@ public class WatermarkIdlenessDemo {
                 );
 
 
-        // 分成两组： 奇数一组，偶数一组 ， 开10s的事件时间滚动窗口
+        // 分成两组： 奇数一组，偶数一组 ， 开10s的事件滚动时间窗口
         socketDS
                 .keyBy(r -> r % 2)
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))

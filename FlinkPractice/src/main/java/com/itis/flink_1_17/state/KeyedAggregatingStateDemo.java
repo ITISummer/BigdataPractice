@@ -40,7 +40,7 @@ public class KeyedAggregatingStateDemo {
                                 .withTimestampAssigner((element, ts) -> element.getTs() * 1000L)
                 );
 
-        sensorDS.keyBy(r -> r.getId())
+        sensorDS.keyBy(WaterSensor::getId)
                 .process(
                         new KeyedProcessFunction<String, WaterSensor, String>() {
 
@@ -66,6 +66,7 @@ public class KeyedAggregatingStateDemo {
 
                                                             @Override
                                                             public Double getResult(Tuple2<Integer, Integer> accumulator) {
+                                                                // 这里乘 1D 不能放在分母而应该放在分子
                                                                 return accumulator.f0 * 1D / accumulator.f1;
                                                             }
 

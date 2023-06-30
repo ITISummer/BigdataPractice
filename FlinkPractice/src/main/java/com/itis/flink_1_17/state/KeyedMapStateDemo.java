@@ -40,7 +40,7 @@ public class KeyedMapStateDemo {
                                 .withTimestampAssigner((element, ts) -> element.getTs() * 1000L)
                 );
 
-        sensorDS.keyBy(r -> r.getId())
+        sensorDS.keyBy(WaterSensor::getId)
                 .process(
                         new KeyedProcessFunction<String, WaterSensor, String>() {
 
@@ -58,8 +58,8 @@ public class KeyedMapStateDemo {
                                 Integer vc = value.getVc();
                                 if (vcCountMapState.contains(vc)) {
                                     // 1.1 如果包含这个vc的key，直接对value+1
-                                    Integer count = vcCountMapState.get(vc);
-                                    vcCountMapState.put(vc, ++count);
+//                                    Integer count = vcCountMapState.get(vc);
+                                    vcCountMapState.put(vc, vcCountMapState.get(vc)+1);
                                 } else {
                                     // 1.2 如果不包含这个vc的key，初始化put进去
                                     vcCountMapState.put(vc, 1);
@@ -68,9 +68,9 @@ public class KeyedMapStateDemo {
                                 // 2.遍历Map状态，输出每个k-v的值
                                 StringBuilder outStr = new StringBuilder();
                                 outStr.append("======================================\n");
-                                outStr.append("传感器id为" + value.getId() + "\n");
+                                outStr.append("传感器id为").append(value.getId()).append("\n");
                                 for (Map.Entry<Integer, Integer> vcCount : vcCountMapState.entries()) {
-                                    outStr.append(vcCount.toString() + "\n");
+                                    outStr.append(vcCount.toString()).append("\n");
                                 }
                                 outStr.append("======================================\n");
 

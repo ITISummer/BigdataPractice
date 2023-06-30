@@ -35,7 +35,7 @@ public class KeyedValueStateDemo {
                                 .withTimestampAssigner((element, ts) -> element.getTs() * 1000L)
                 );
 
-        sensorDS.keyBy(r -> r.getId())
+        sensorDS.keyBy(WaterSensor::getId)
                 .process(
                         new KeyedProcessFunction<String, WaterSensor, String>() {
 
@@ -43,13 +43,15 @@ public class KeyedValueStateDemo {
                             ValueState<Integer> lastVcState;
 
 
+                            /**
+                             * 状态初始化(lastVcState)必须在 open() 方法里定义
+                             */
                             @Override
                             public void open(Configuration parameters) throws Exception {
                                 super.open(parameters);
                                 // TODO 2.在open方法中，初始化状态
                                 // 状态描述器两个参数：第一个参数，起个名字，不重复；第二个参数，存储的类型
-                                lastVcState = getRuntimeContext().getState(new ValueStateDescriptor<Integer>("lastVcState", Types.INT));
-
+                                lastVcState = getRuntimeContext().getState(new ValueStateDescriptor<>("lastVcState", Types.INT));
                             }
 
                             @Override

@@ -30,7 +30,7 @@ public class WindowApiDemo {
                 .map(new WaterSensorMapFunction());
 
 
-        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(sensor -> sensor.getId());
+        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(WaterSensor::getId);
 
 
 
@@ -41,9 +41,9 @@ public class WindowApiDemo {
         // 1.2 有keyby的窗口: 每个key上都定义了一组窗口，各自独立地进行统计计算
 
         // 基于时间的
-//        sensorKS.window(TumblingProcessingTimeWindows.of(Time.seconds(10))) // 滚动窗口，窗口长度10s
-//        sensorKS.window(SlidingProcessingTimeWindows.of(Time.seconds(10), Time.seconds(2))) // 滑动窗口，窗口长度10s，滑动步长2s
-//        sensorKS.window(ProcessingTimeSessionWindows.withGap(Time.seconds(5))) // 会话窗口，超时间隔5s
+        sensorKS.window(TumblingProcessingTimeWindows.of(Time.seconds(10))); // 滚动窗口，窗口长度10s
+//        sensorKS.window(SlidingProcessingTimeWindows.of(Time.seconds(10), Time.seconds(2))); // 滑动窗口，窗口长度10s，滑动步长2s
+//        sensorKS.window(ProcessingTimeSessionWindows.withGap(Time.seconds(5))); // 会话窗口，超时间隔5s
 
         // 基于计数的
 //        sensorKS.countWindow(5)  // 滚动窗口，窗口长度=5个元素

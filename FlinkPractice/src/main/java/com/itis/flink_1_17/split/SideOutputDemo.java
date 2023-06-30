@@ -56,21 +56,19 @@ public class SideOutputDemo {
                                 String id = value.getId();
                                 if ("s1".equals(id)) {
                                     // 如果是 s1，放到侧输出流s1中
-                                    /**
-                                     * 上下文ctx 调用ouput，将数据放入侧输出流
-                                     * 第一个参数： Tag对象
-                                     * 第二个参数： 放入侧输出流中的 数据
+                                    /*
+                                      上下文ctx 调用ouput，将数据放入侧输出流
+                                      第一个参数： Tag对象
+                                      第二个参数： 放入侧输出流中的 数据
                                      */
                                     ctx.output(s1Tag, value);
                                 } else if ("s2".equals(id)) {
                                     // 如果是 s2，放到侧输出流s2中
-
                                     ctx.output(s2Tag, value);
                                 } else {
                                     // 非s1、s2的数据，放到主流中
                                     out.collect(value);
                                 }
-
                             }
                         }
                 );

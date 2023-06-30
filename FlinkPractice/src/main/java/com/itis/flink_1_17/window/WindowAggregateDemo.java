@@ -38,7 +38,7 @@ public class WindowAggregateDemo {
         /**
          * 1、属于本窗口的第一条数据来，创建窗口，创建累加器
          * 2、增量聚合： 来一条计算一条， 调用一次add方法
-         * 3、窗口输出时调用一次getresult方法
+         * 3、窗口输出时调用一次getResult方法
          * 4、输入、中间累加器、输出 类型可以不一样，非常灵活
          */
         SingleOutputStreamOperator<String> aggregate = sensorWS.aggregate(

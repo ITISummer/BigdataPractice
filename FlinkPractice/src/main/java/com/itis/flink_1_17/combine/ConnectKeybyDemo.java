@@ -38,13 +38,14 @@ public class ConnectKeybyDemo {
                 Tuple3.of(3, "cc", 1)
         );
 
+        // 并行度设置为1时调用此结果不会出错
         ConnectedStreams<Tuple2<Integer, String>, Tuple3<Integer, String, Integer>> connect = source1.connect(source2);
 
-        // 多并行度下，需要根据 关联条件进行 keyby，才能保证 key相同的数据到一起去，才能匹配上
+        // 多并行度下(并行度数量>=2时)，需要根据 关联条件进行 keyby，才能保证 key相同的数据到一起去，才能匹配上
         ConnectedStreams<Tuple2<Integer, String>, Tuple3<Integer, String, Integer>> connectKeyby = connect.keyBy(s1 -> s1.f0, s2 -> s2.f0);
 
         /**
-         * 实现互相匹配的效果：  两条流，，不一定谁的数据先来
+         * 实现互相匹配的效果：  两条流，不一定谁的数据先来
          *  1、每条流，有数据来，存到一个变量中
          *      hashmap
          *      =》key=id，第一个字段值
@@ -63,7 +64,6 @@ public class ConnectKeybyDemo {
                      * @param value 第一条流的数据
                      * @param ctx   上下文
                      * @param out   采集器
-                     * @throws Exception
                      */
                     @Override
                     public void processElement1(Tuple2<Integer, String> value, Context ctx, Collector<String> out) throws Exception {

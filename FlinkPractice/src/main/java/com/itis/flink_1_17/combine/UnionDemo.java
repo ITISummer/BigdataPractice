@@ -25,7 +25,7 @@ public class UnionDemo {
          * 2、 一次可以合并多条流
          */
 //        DataStream<Integer> union = source1.union(source2).union(source3.map(r -> Integer.valueOf(r)));
-        DataStream<Integer> union = source1.union(source2, source3.map(r -> Integer.valueOf(r)));
+        DataStream<Integer> union = source1.union(source2, source3.map(Integer::valueOf));
         union.print();
 
 

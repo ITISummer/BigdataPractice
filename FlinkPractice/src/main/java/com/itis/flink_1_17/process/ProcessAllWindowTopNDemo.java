@@ -77,13 +77,14 @@ public class ProcessAllWindowTopNDemo {
                 datas.add(Tuple2.of(vc, vcCountMap.get(vc)));
             }
             // 对List进行排序，根据count值 降序
-            datas.sort(new Comparator<Tuple2<Integer, Integer>>() {
-                @Override
-                public int compare(Tuple2<Integer, Integer> o1, Tuple2<Integer, Integer> o2) {
-                    // 降序， 后 减 前
-                    return o2.f1 - o1.f1;
-                }
-            });
+//            datas.sort(new Comparator<Tuple2<Integer, Integer>>() {
+//                @Override
+//                public int compare(Tuple2<Integer, Integer> o1, Tuple2<Integer, Integer> o2) {
+//                    // 降序， 后 减 前
+//                    return o2.f1 - o1.f1;
+//                }
+//            });
+            datas.sort((o1, o2) -> o2.f1 - o1.f1);
 
             // 3.取出 count最大的2个 vc
             StringBuilder outStr = new StringBuilder();
@@ -92,16 +93,13 @@ public class ProcessAllWindowTopNDemo {
             // 遍历 排序后的 List，取出前2个， 考虑可能List不够2个的情况  ==》 List中元素的个数 和 2 取最小值
             for (int i = 0; i < Math.min(2, datas.size()); i++) {
                 Tuple2<Integer, Integer> vcCount = datas.get(i);
-                outStr.append("Top" + (i + 1) + "\n");
-                outStr.append("vc=" + vcCount.f0 + "\n");
-                outStr.append("count=" + vcCount.f1 + "\n");
-                outStr.append("窗口结束时间=" + DateFormatUtils.format(context.window().getEnd(), "yyyy-MM-dd HH:mm:ss.SSS") + "\n");
+                outStr.append("Top").append(i + 1).append("\n");
+                outStr.append("vc=").append(vcCount.f0).append("\n");
+                outStr.append("count=").append(vcCount.f1).append("\n");
+                outStr.append("窗口结束时间=").append(DateFormatUtils.format(context.window().getEnd(), "yyyy-MM-dd HH:mm:ss.SSS")).append("\n");
                 outStr.append("================================\n");
             }
-
             out.collect(outStr.toString());
-
-
         }
     }
 }
